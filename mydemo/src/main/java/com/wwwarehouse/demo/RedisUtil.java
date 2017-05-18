@@ -1,19 +1,18 @@
 package com.wwwarehouse.demo;
-import java.util.ArrayList;  
-import java.util.List;  
-import java.util.Map;  
-import java.util.Set;  
-  
-import org.slf4j.Logger;  
-import org.slf4j.LoggerFactory;  
-//import org.springframework.beans.factory.annotation.Autowired;  
-//import org.springframework.stereotype.Component;  
-  
-import redis.clients.jedis.Jedis;  
-import redis.clients.jedis.ScanParams;  
-import redis.clients.jedis.ScanResult;  
-import redis.clients.jedis.ShardedJedis;  
-import redis.clients.jedis.ShardedJedisPool;  
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Component;
   
 //@Component  
 public class RedisUtil {  
@@ -33,7 +32,7 @@ public class RedisUtil {
      * @return 1：设置了过期时间 0：没有设置过期时间/不能设置过期时间  
      */  
     public long expire(String key, int seconds) {  
-        if (key == null || key.equals("")) {  
+        if (StringUtils.isBlank(key)) {
             return 0;  
         }  
   
@@ -60,7 +59,7 @@ public class RedisUtil {
      * @return 1：设置了过期时间 0：没有设置过期时间/不能设置过期时间  
      */  
     public long expireAt(String key, long unixTimestamp) {  
-        if (key == null || key.equals("")) {  
+        if (StringUtils.isBlank(key)) {
             return 0;  
         }  
   
@@ -89,7 +88,7 @@ public class RedisUtil {
      * @return 状态码  
      */  
     public String trimList(String key, long start, long end) {  
-        if (key == null || key.equals("")) {  
+        if (StringUtils.isBlank(key)) {
             return "-";  
         }  
         ShardedJedis shardedJedis = null;  
@@ -112,7 +111,7 @@ public class RedisUtil {
      * @return  
      */  
     public long countSet(String key) {  
-        if (key == null) {  
+        if (StringUtils.isBlank(key)) {
             return 0;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -155,7 +154,7 @@ public class RedisUtil {
      * @return  
      */  
     public boolean addSet(String key, String... value) {  
-        if (key == null || value == null) {  
+        if (StringUtils.isBlank(key)) {
             return false;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -178,7 +177,7 @@ public class RedisUtil {
      * @return 判断值是否包含在set中  
      */  
     public boolean containsInSet(String key, String value) {  
-        if (key == null || value == null) {  
+        if (StringUtils.isBlank(key)) {
             return false;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -200,7 +199,7 @@ public class RedisUtil {
      * @param key  
      * @return  
      */  
-    public Set<String> getSet(String key) {  
+    public Set<String> getSet(String key) {
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -220,7 +219,10 @@ public class RedisUtil {
      * @param key  
      * @return  
      */  
-    public boolean removeSetValue(String key, String... value) {  
+    public boolean removeSetValue(String key, String... value) {
+        if (StringUtils.isBlank(key)) {
+            return false;
+        }
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -256,9 +258,12 @@ public class RedisUtil {
      *            值list  
      * @return  
      */  
-    public int removeListValue(String key, long count, List<String> values) {  
-        int result = 0;  
-        if (values != null && values.size() > 0) {  
+    public int removeListValue(String key, long count, List<String> values) {
+        int result = 0;
+        if (StringUtils.isBlank(key)) {
+            return result;
+        }
+        if (values != null && values.size() > 0) {
             for (String value : values) {  
                 if (removeListValue(key, count, value)) {  
                     result++;  
@@ -277,7 +282,10 @@ public class RedisUtil {
      * @param value  
      * @return  
      */  
-    public boolean removeListValue(String key, long count, String value) {  
+    public boolean removeListValue(String key, long count, String value) {
+        if (StringUtils.isBlank(key)) {
+            return false;
+        }
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -303,7 +311,7 @@ public class RedisUtil {
      * @return  
      */  
     public List<String> rangeList(String key, long start, long end) {  
-        if (key == null || key.equals("")) {  
+        if (StringUtils.isBlank(key)) {
             return null;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -326,7 +334,7 @@ public class RedisUtil {
      * @return  
      */  
     public long countList(String key) {  
-        if (key == null) {  
+        if (StringUtils.isBlank(key)) {
             return 0;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -352,7 +360,7 @@ public class RedisUtil {
      * @param value  
      * @return  
      */  
-    public boolean addList(String key, int seconds, String... value) {  
+    public boolean addList(String key, int seconds, String... value) {
         boolean result = addList(key, value);  
         if (result) {  
             long i = expire(key, seconds);  
@@ -369,7 +377,7 @@ public class RedisUtil {
      * @return  
      */  
     public boolean addList(String key, String... value) {  
-        if (key == null || value == null) {  
+        if (StringUtils.isBlank(key)) {
             return false;  
         }  
         ShardedJedis shardedJedis = null;  
@@ -394,7 +402,7 @@ public class RedisUtil {
      * @return  
      */  
     public boolean addList(String key, List<String> list) {  
-        if (key == null || list == null || list.size() == 0) {  
+        if (StringUtils.isBlank(key) || CollectionUtils.isEmpty(list)) {
             return false;  
         }  
         for (String value : list) {  
@@ -409,7 +417,10 @@ public class RedisUtil {
      * @param key  
      * @return  
      */  
-    public List<String> getList(String key) {  
+    public List<String> getList(String key) {
+        if (StringUtils.isBlank(key)) {
+            return null;
+        }
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -434,9 +445,10 @@ public class RedisUtil {
      *            Json String or String value  
      * @return  
      */  
-    public boolean setHSet(String domain, String key, String value) {  
-        if (value == null)  
-            return false;  
+    public boolean setHSet(String domain, String key, String value) {
+        if (StringUtils.isBlank(value)) {
+            return false;
+        }
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -460,7 +472,7 @@ public class RedisUtil {
      *            键值  
      * @return Json String or String value  
      */  
-    public String getHSet(String domain, String key) {  
+    public String getHSet(String domain, String key) {
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -586,9 +598,9 @@ public class RedisUtil {
      */  
   
     public List<String> hvals(String domain) {  
-        ShardedJedis shardedJedis = null;  
-        List<String> retList = null;  
-        try {  
+        List<String> retList = null;
+        ShardedJedis shardedJedis = null;
+        try {
             shardedJedis = shardedJedisPool.getResource();  
             retList = shardedJedis.hvals(domain);  
         } catch (Exception ex) {  
@@ -629,9 +641,9 @@ public class RedisUtil {
      * @return  
      */  
     public long lenHset(String domain) {  
-        ShardedJedis shardedJedis = null;  
-        long retList = 0;  
-        try {  
+        long retList = 0;
+        ShardedJedis shardedJedis = null;
+        try {
             shardedJedis = shardedJedisPool.getResource();  
             retList = shardedJedis.hlen(domain);  
         } catch (Exception ex) {  
@@ -644,7 +656,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 设置排序集合  
+     * 设置有序集合
      *  
      * @param key  
      * @param score  
@@ -667,7 +679,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 获得排序集合  
+     * 获得有序集合
      *  
      * @param key  
      * @param startScore  
@@ -694,7 +706,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 计算排序长度  
+     * 计算有序集合长度
      *  
      * @param key  
      * @param startScore  
@@ -717,7 +729,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 删除排序集合  
+     * 删除有序集合中的一个或多个成员
      *  
      * @param key  
      * @param value  
@@ -727,8 +739,8 @@ public class RedisUtil {
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
-            long count = shardedJedis.zrem(key, value);  
-            return count > 0;  
+            long count = shardedJedis.zrem(key, value);
+            return count > 0;
         } catch (Exception ex) {  
             logger.error("delSortedSet error.", ex);  
             returnBrokenResource(shardedJedis);  
@@ -739,7 +751,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 获得排序集合  
+     * 获得排序集合指定区间内的成员
      *  
      * @param key  
      * @param startRange  
@@ -766,7 +778,7 @@ public class RedisUtil {
     }  
   
     /**  
-     * 获得排序打分  
+     * 获得有序集合的分数
      *  
      * @param key  
      * @return  
@@ -783,8 +795,15 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return null;  
-    }  
-  
+    }
+
+    /**
+     * 将值 value 关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)
+     * @param key
+     * @param value
+     * @param second
+     * @return
+     */
     public boolean set(String key, String value, int second) {  
         ShardedJedis shardedJedis = null;  
         try {  
@@ -798,8 +817,14 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return false;  
-    }  
-  
+    }
+
+    /**
+     * 将字符串值 value 关联到 key
+     * @param key
+     * @param value
+     * @return
+     */
     public boolean set(String key, String value) {  
         ShardedJedis shardedJedis = null;  
         try {  
@@ -813,16 +838,21 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return false;  
-    }  
-  
+    }
+
+    /**
+     * 返回 key 所关联的对象值
+     * @param key
+     * @return
+     */
     public Object getValue(String key) {  
         Object ret = null;  
         ShardedJedis jedis = shardedJedisPool.getResource();  
         try {  
   
             // 去redis中取回序列化后的对象  
-            byte[] obj = jedis.get(key.getBytes());  
-  
+            byte[] obj = jedis.get(key.getBytes());
+
             // 取回的对象反序列化  
             if (obj != null) {  
                 ret = SerializeUtil.unserialize(obj);  
@@ -834,9 +864,15 @@ public class RedisUtil {
             jedis.close();  
         }  
         return ret;  
-    }  
-  
-    public String get(String key, String defaultValue) {  
+    }
+
+    /**
+     * 返回 key 所关联的字符串值
+     * @param key
+     * @param defaultValue
+     * @return
+     */
+    public String getValue(String key, String defaultValue) {
         ShardedJedis shardedJedis = null;  
         try {  
             shardedJedis = shardedJedisPool.getResource();  
@@ -848,8 +884,13 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return defaultValue;  
-    }  
-  
+    }
+
+    /**
+     * 删除给定的一个或多个 key
+     * @param key
+     * @return
+     */
     public boolean del(String key) {  
         ShardedJedis shardedJedis = null;  
         try {  
@@ -863,8 +904,13 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return false;  
-    }  
-  
+    }
+
+    /**
+     * 将 key 中储存的数字值增一
+     * @param key
+     * @return
+     */
     public long incr(String key) {  
         ShardedJedis shardedJedis = null;  
         try {  
@@ -877,8 +923,13 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return 0;  
-    }  
-  
+    }
+
+    /**
+     * 将 key 中储存的数字值减一
+     * @param key
+     * @return
+     */
     public long decr(String key) {  
         ShardedJedis shardedJedis = null;  
         try {  
@@ -891,28 +942,38 @@ public class RedisUtil {
             returnResource(shardedJedis);  
         }  
         return 0;  
-    }  
-  
-    private void returnBrokenResource(ShardedJedis shardedJedis) {  
-        if (shardedJedis == null) {  
-            return;  
-        }  
-        try {  
+    }
+
+    /**
+     * 关闭连接
+     * @param shardedJedis
+     */
+    private void returnBrokenResource(ShardedJedis shardedJedis) {
+        if (shardedJedis == null) {
+            return;
+        }
+        try {
             // 容错  
-            shardedJedis.close();  
+            shardedJedis.close();
+            // close中已经有returnBrokenResource操作了
             //shardedJedisPool.returnBrokenResource(shardedJedis);  
-        } catch (Exception e) {  
-            logger.error("returnBrokenResource error.", e);  
-        }  
-    }  
-  
-    private void returnResource(ShardedJedis shardedJedis) {  
-        try {  
-             shardedJedis.close();  
-            //shardedJedisPool.returnResource(shardedJedis);  
-        } catch (Exception e) {  
-            logger.error("returnResource error.", e);  
-        }  
+        } catch (Exception e) {
+            logger.error("returnBrokenResource error.", e);
+        }
+    }
+
+    /**
+     * 关闭连接
+     * @param shardedJedis
+     */
+    private void returnResource(ShardedJedis shardedJedis) {
+        try {
+            shardedJedis.close();
+            // close中已经有returnResource操作了
+            // shardedJedisPool.returnResource(shardedJedis);
+        } catch (Exception e) {
+            logger.error("returnResource error.", e);
+        }
     }  
   
 }  
