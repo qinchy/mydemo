@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 
 import org.hamcrest.core.CombinableMatcher;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class AssertTests {
@@ -54,7 +55,7 @@ public class AssertTests {
     // JUnit Matchers assertThat
     @Test
     public void testAssertThatBothContainsString() {
-        org.junit.Assert.assertThat("albumen", both(containsString("a")).and(containsString("b")));
+        org.junit.Assert.assertThat("albumen", both(containsString("al")).and(containsString("bu")));
     }
 
     @Test
@@ -79,5 +80,12 @@ public class AssertTests {
         Object a = new Object();
         Object b = a;
         assertThat(a, sameInstance(b));
+    }
+
+    @Test
+    public void testAssertMethod() {
+        int[] a = {1, 2, 3};
+        int[] b = {1, 2, 3};
+        Assert.assertArrayEquals("数组元素相等", a, b);
     }
 }  
