@@ -40,6 +40,7 @@ public class WordDealUtilWithParamTest {
         this.target = target;
     }
 
+    
     /**
      * 测试将 Java 对象名称到数据库名称的转换
      */
