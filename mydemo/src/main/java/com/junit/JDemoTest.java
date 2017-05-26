@@ -49,7 +49,7 @@ public class JDemoTest {
         System.out.println("in test_ignore");  
     }  
   
-    @Test  
+    @Test(expected = AssertionError.class)
     public void teest_fail() {  
         fail();  
     }  
