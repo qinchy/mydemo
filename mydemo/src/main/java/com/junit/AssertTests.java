@@ -3,6 +3,7 @@ package com.junit;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import org.hamcrest.core.CombinableMatcher;
@@ -12,9 +13,9 @@ import org.junit.Test;
 public class AssertTests {
 
     @Test
-    public void testAssertArrayEquals() {
-        byte[] expected = "trial".getBytes();
-        byte[] actual = "trial".getBytes();
+    public void testAssertArrayEquals() throws UnsupportedEncodingException{
+        byte[] expected = "trial".getBytes("UTF-8");
+        byte[] actual = "trial".getBytes("UTF-8");
         org.junit.Assert.assertArrayEquals("failure - byte arrays not same", expected, actual);
     }
 
