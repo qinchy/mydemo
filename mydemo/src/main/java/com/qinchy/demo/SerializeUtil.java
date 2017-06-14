@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo;
+package com.qinchy.demo;
 import java.io.ByteArrayInputStream;  
 import java.io.ByteArrayOutputStream;  
 import java.io.ObjectInputStream;  

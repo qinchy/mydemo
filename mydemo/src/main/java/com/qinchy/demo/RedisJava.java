@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo;
+package com.qinchy.demo;
 
 import java.util.Iterator;
 import java.util.List;

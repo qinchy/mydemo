@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo.autoclose;
+package com.qinchy.demo.autoclose;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

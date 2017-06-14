@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo.kafka;
+package com.qinchy.demo.kafka;
 
 import java.util.Properties;
 

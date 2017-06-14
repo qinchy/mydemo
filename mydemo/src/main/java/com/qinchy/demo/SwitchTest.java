@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo;
+package com.qinchy.demo;
 
 /**
  * Created by chaoyong.qin on 2017-05-19.

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.wwwarehouse.demo;
+package com.qinchy.demo;
 
 /**
  * @author chaoyong.qin

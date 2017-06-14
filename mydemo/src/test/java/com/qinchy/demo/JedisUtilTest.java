@@ -1,4 +1,4 @@
-package com.wwwarehouse.demo;
+package com.qinchy.demo;
 
 import org.junit.Before;
 import org.junit.Test;
