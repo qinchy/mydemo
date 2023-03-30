@@ -1,4 +1,8 @@
-﻿# 以'#'开始的行，被视为注释.                                                                .idea/                                                          
-mydemo/.idea/
-mydemo/target/
-mydemo/mydemo.iml
+﻿# 以'#'开始的行，被视为注释.
+./.idea
+mydemo1/.idea/
+mydemo1/target/
+mydemo1/mydemo.iml
+mydemo2/.idea/
+mydemo2/target/
+mydemo2/mydemo.iml
