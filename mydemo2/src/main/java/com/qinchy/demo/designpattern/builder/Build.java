@@ -14,7 +14,6 @@ public class Build {
 
         // static类中嵌套了static类
         static class Builder {
-
             String name = null;
             int number = -1;
             String sex = null;

@@ -12,6 +12,11 @@ class Student implements Serializable {
         this.name = name;
     }
 
+    private Student(Builder builder) {
+        setId(builder.id);
+        setName(builder.name);
+    }
+
     public int getId() {
         return id;
     }
@@ -41,6 +46,26 @@ class Student implements Serializable {
         return Objects.hash(id, name);
     }
 
+    // 建造者模式
+    public static final class Builder {
+        private int id;
+        private String name;
 
+        public Builder() {
+        }
 
+        public Builder id(int val) {
+            id = val;
+            return this;
+        }
+
+        public Builder name(String val) {
+            name = val;
+            return this;
+        }
+
+        public Student build() {
+            return new Student(this);
+        }
+    }
 }
