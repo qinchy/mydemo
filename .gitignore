@@ -1,5 +1,5 @@
 ﻿# 以'#'开始的行，被视为注释.
-./.idea
+**/.idea
 mydemo1/.idea/
 mydemo1/target/
 mydemo1/mydemo.iml
